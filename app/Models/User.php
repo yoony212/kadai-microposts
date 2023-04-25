@@ -85,7 +85,7 @@ class User extends Authenticatable
     /**
      * $userIdで指定されたユーザをアンフォローする。
      * 
-     * @param  int $usereId
+     * @param  int $userId
      * @return bool
      */
     public function unfollow($userId)

@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for micropost-yoon on 2023-04-19T15:37:01Z
+# fly.toml app configuration file generated for micropost-yoon on 2023-04-25T06:12:13Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -12,18 +12,18 @@ primary_region = "nrt"
     PHP_VERSION = "8.1"
 
 [env]
-  APP_URL = "https://micropost-yoon.fly.dev"
-  APP_NAME = "micropost-yoon"
-  APP_DEBUG = false
+  APP_DEBUG = "false"
   APP_ENV = "production"
+  APP_NAME = "micropost-yoon"
+  APP_URL = "https://micropost-yoon.fly.dev"
+  DB_CONNECTION = "pgsql"
+  DB_DATABASE = "postgres"
+  DB_HOST = "db.qrscbzokuhwpbmylwbfm.supabase.co"
+  DB_PORT = "5432"
+  DB_USERNAME = "postgres"
   LOG_CHANNEL = "stderr"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
-  DB_CONNECTION = "pgsql"
-  DB_HOST = "db.avqfsrgzavphhoxzyunc.supabase.co"
-  DB_PORT = 5432
-  DB_DATABASE = "postgres"
-  DB_USERNAME = "postgres"
 
 [http_service]
   internal_port = 8080
