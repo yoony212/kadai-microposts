@@ -113,10 +113,52 @@ class User extends Authenticatable
     }
     
     /**
+     * このユーザとフォロー中ユーザの投稿に絞り込む。
+     */
+    public function feed_microposts()
+    {
+        // このユーザがフォロー中のユーザのidを取得して配列にする
+        $userIds = $this->followings()->pluck('users.id')->toArray();
+        // このユーザのidもその配列に追加
+        $userIds[] = $this->id;
+        // それらのユーザが所有する投稿に絞り込む
+        return Micropost::whereIn('user_id', $userIds);
+    }
+    
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+    
+    public function favorite_microposts()
+    {
+        return $this->belongsToMany(Micropost::class, 'favorites', 'user_id', 'favorite_id');
+    }
+    
+    public function is_favorite($favoriteId)
+    {
+        return $this->favorites()->where('favorite_id', $favoriteId)->exists();
+    }
+    
+    public function register_favorite($favoriteId) {
+        $user = \Auth::user();
+        if (!$user->is_favorite($favoriteId)) {
+            $user->favorite_microposts()->attach($favoriteId);
+        }
+    }
+    
+    public function delete_favorite($favoriteId) {
+        $user = \Auth::user();
+        if ($user->is_favorite($favoriteId)) {
+            $user->favorite_microposts()->detach($favoriteId);
+        }
+    }
+    
+    /**
      * このユーザに関係するモデルの件数をロードする。
      */
     public function loadRelationshipCounts()
     {
-        $this->loadCount(['microposts', 'followings', 'followers']);
+        $this->loadCount(['microposts', 'followings', 'followers', 'favorites']);
     }
 }
